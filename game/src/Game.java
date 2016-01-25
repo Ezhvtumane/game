@@ -19,6 +19,8 @@
  * Расписать по методам каждый шаг.
  * **/
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.lang.Math;
 
@@ -27,29 +29,34 @@ import java.lang.Math;
  */
 public class Game {
 
-            static Integer counter=0;
+    Integer counter=0;
+    Integer level=0;
+    Integer num=0;
+    String name="";
+    int i=0;
 
-    public static void main (String args[])
+    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+    public Integer levelChoise()
     {
-        int i=0;
-        Integer num=0;
-        Integer level=0;
-        String name;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
         System.out.println("Выберите уровень(1-3):");
-            try {
+        try {
+            level=Integer.parseInt(reader.readLine());
+            while(!level.equals(1) && !level.equals(2) && !level.equals(3))
+            {
+                System.out.println("More:");
                 level=Integer.parseInt(reader.readLine());
-                while(!level.equals(1) && !level.equals(2) && !level.equals(3))
-                {
-                    System.out.println("More:");
-                    level=Integer.parseInt(reader.readLine());
-                }
-                System.out.println("Выбран "+level+" уровень");
             }
-            catch(Exception e) {
-                System.out.println("ololo");
-            }
+            System.out.println("Выбран "+level+" уровень");
+        }
+        catch(Exception e) {
+            System.out.println("ololo");
+        }
+        return level;
+    }
+
+    public Integer makeNum(Integer level)
+    {
         switch (level) {
             case 1:
                 num = 0 + (int) (Math.random() * ((9 - 0) + 1)); break;
@@ -58,9 +65,12 @@ public class Game {
             case 3:
                 num = 0 + (int) (Math.random() * ((999 - 0) + 1)); break;
         }
-
         System.out.println(num);
+        return num;
+    }
 
+    public void game(Integer num)
+    {
         System.out.println("Введите число:");
 
         try {
@@ -76,7 +86,10 @@ public class Game {
         }catch (Exception e) {
             System.out.println("Некорректный ввод");
         }
+    }
 
+    public String setName()
+    {
         System.out.println("Введите Ваше имя:");
 
         try {
@@ -85,9 +98,29 @@ public class Game {
         catch (Exception e){
             System.out.println("?!");
         }
+        return name;
+    }
 
-        //Запись в файл.
+    public void saveFile(String filename)
+    {
+        File results = new File("res.txt");
+
+        try {
+            FileWriter fw = new FileWriter("res.txt", true);
+            fw.write(name+" "+counter);
+            fw.append('\n');
+            fw.close();
+        }
+        catch(Exception e){}
+    }
 
 
+    public static void main (String args[])
+    {
+        Game game = new Game();
+
+        game.game(game.makeNum(game.levelChoise()));
+        game.setName();
+        game.saveFile("blabla");
     }
 }
