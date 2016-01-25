@@ -22,7 +22,9 @@ public class Game {
                 System.out.println("попробуйте еще раз:");
                 counter++;
             }
-            System.out.println("Угадали");
+            counter++;
+            System.out.println("Угадали за " + counter +" попыток.");
+
         }catch (Exception e) {
             System.out.println("Некорректный ввод");
 
