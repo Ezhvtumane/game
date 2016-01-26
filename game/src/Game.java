@@ -1,3 +1,4 @@
+
 /*
 Игра: "Угадай число"
 Суть игры состоит в том что бы угадать число загаданное компьютером за как можно меньшее количество ходов.
@@ -14,14 +15,10 @@
 Желатель написать юнит тесты.
 */
 
-
 /**
  * Расписать по методам каждый шаг.
  * **/
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.Math;
 
 /**
@@ -29,98 +26,111 @@ import java.lang.Math;
  */
 public class Game {
 
-    Integer counter=0;
-    Integer level=0;
-    Integer num=0;
-    String name="";
-    int i=0;
+    private Integer counter=0;
+    private String level="";
+    private Integer num=0;
+    private String name="";
 
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public Integer levelChoise()
+    public void levelChoose() throws Exception
     {
         System.out.println("Выберите уровень(1-3):");
-        try {
-            level=Integer.parseInt(reader.readLine());
-            while(!level.equals(1) && !level.equals(2) && !level.equals(3))
+            level=reader.readLine();
+            while(!level.equals("1") && !level.equals("2") && !level.equals("3"))
             {
-                System.out.println("More:");
-                level=Integer.parseInt(reader.readLine());
+                System.out.println("Введите номер уровня, попробуйте еще раз:");
+                level=reader.readLine();
             }
-            System.out.println("Выбран "+level+" уровень");
-        }
-        catch(Exception e) {
-            System.out.println("ololo");
-        }
-        return level;
+            System.out.println("Выбран "+level+" уровень.");
     }
 
-    public Integer makeNum(Integer level)
+    public void makeNum() throws Exception
     {
-        switch (level) {
+        switch (Integer.parseInt(level)) {
             case 1:
-                num = 0 + (int) (Math.random() * ((9 - 0) + 1)); break;
+                num = (int) (Math.random() * (10));
+                System.out.println("Загаданно число от 0 до 9 включительно.");break;
             case 2:
-                num = 0 + (int) (Math.random() * ((99 - 0) + 1)); break;
+                num = (int) (Math.random() * (100));
+                System.out.println("Загаданно число от 0 до 99 включительно.");break;
             case 3:
-                num = 0 + (int) (Math.random() * ((999 - 0) + 1)); break;
+                num = (int) (Math.random() * (1000));
+                System.out.println("Загаданно число от 0 до 999 включительно.");break;
         }
         System.out.println(num);
-        return num;
     }
 
-    public void game(Integer num)
+    public void game() throws Exception
     {
-        System.out.println("Введите число:");
+        String nums;
+        int i;
+        System.out.println("Введите Ваш вариант числа:");
 
-        try {
-            while (!num.equals(i=Integer.parseInt(reader.readLine()))) {
-                if(i < num) System.out.println("Введенное число меньше.");
-                else if(i > num) System.out.println("Введенное число больше.");
-                System.out.println("попробуйте еще раз:");
-                counter++;
+        while(true)
+        {
+            if(checkNum(nums=reader.readLine()))
+            {
+                if (!num.equals(i = Integer.parseInt(nums))) {
+                    if (i < num) System.out.print("Введенное число меньше,");
+                        else if (i > num) System.out.print("Введенное число больше,");
+                    System.out.println("попробуйте еще раз:");
+                    counter++;
+                }
+                else {counter++; break;}
             }
-            counter++;
-            System.out.println("Угадали за " + counter +" попыток.");
-
-        }catch (Exception e) {
-            System.out.println("Некорректный ввод");
+            else {counter++; System.out.println("Введите, пожалуйста, число!");}
         }
+        System.out.println("Угадали с " + counter + " раза.");
     }
 
-    public String setName()
+    public void setName() throws Exception
     {
-        System.out.println("Введите Ваше имя:");
-
-        try {
-            name = reader.readLine();
-        }
-        catch (Exception e){
-            System.out.println("?!");
-        }
-        return name;
+        System.out.println("Введите Ваше имя для доски почета:");
+        name = reader.readLine();
     }
 
-    public void saveFile(String filename)
+    public void saveFile() throws Exception
     {
-        File results = new File("res.txt");
+        int bufread;
 
-        try {
-            FileWriter fw = new FileWriter("res.txt", true);
-            fw.write(name+" "+counter);
-            fw.append('\n');
-            fw.close();
-        }
-        catch(Exception e){}
+        FileWriter fw = new FileWriter("res.txt", true);
+        fw.write(name+" "+counter);
+        fw.append('\n');
+        fw.close();
+
+        FileReader fr = new FileReader("res.txt");
+        System.out.println("\nТаблица результатов:");
+            while((bufread=fr.read())!=-1)
+                System.out.print((char)bufread);
+
     }
 
+    boolean checkNum(String num) throws Exception
+    {
+        try
+        {
+            Integer.parseInt(num);
+            return true;
+        }
+        catch(Exception e){return false;}
+
+
+    }
 
     public static void main (String args[])
     {
         Game game = new Game();
 
-        game.game(game.makeNum(game.levelChoise()));
-        game.setName();
-        game.saveFile("blabla");
+        try {
+            game.levelChoose();
+            game.makeNum();
+            game.game();
+            game.setName();
+            game.saveFile();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
     }
 }
