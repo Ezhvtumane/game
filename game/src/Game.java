@@ -16,52 +16,52 @@
 */
 
 /**
- * Расписать по методам каждый шаг.
+ * Расписать по методам каждый шаг. Ввести входные параметры методам - вывести ввод строки за скобки.
  * **/
 import java.io.*;
 import java.lang.Math;
 
-/**
- * Created by OrlovGS on 25.01.2016.
- */
 public class Game {
 
-    private Integer counter=0;
-    private String level="";
-    private Integer num=0;
-    private String name="";
+    private Integer counter=0;  // счетчик попыток
+    private String level="";    // переменная для задания уровня
+    private Integer num=0;      // загадываемое число
+    private String name="";     // имя игрока
 
-    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // чтение с консоли
 
-    public void levelChoose() throws Exception
+    public void levelChoose() throws Exception //выбор уровня
     {
         System.out.println("Выберите уровень(1-3):");
-            level=reader.readLine();
-            while(!level.equals("1") && !level.equals("2") && !level.equals("3"))
+            level=reader.readLine();        // считываем строку
+            while(!level.equals("1") & !level.equals("2") & !level.equals("3") & !level.equals("exit"))       // проверяем соответствие уровню
             {
                 System.out.println("Введите номер уровня, попробуйте еще раз:");
-                level=reader.readLine();
+                level=reader.readLine();        // если ввели некорректное значение - переспрашиваем
             }
-            System.out.println("Выбран "+level+" уровень.");
+        if(level.equals("exit")) {
+            System.out.println("Всего доброго! Ждем Вас снова!");System.exit(-1);}
+        else
+            System.out.println("Выбран "+level+" уровень.");        // выбрали уровень, записали в глобальную переменую
     }
 
-    public void makeNum() throws Exception
+    public void makeNum() throws Exception      // генерация случайного числа, в зависимости от выбранного уровня
     {
         switch (Integer.parseInt(level)) {
             case 1:
-                num = (int) (Math.random() * (10));
-                System.out.println("Загаданно число от 0 до 9 включительно.");break;
+                num = (int) (Math.random() * (10));     // от 0 до 9
+                System.out.println("Загадано число от 0 до 9 включительно.");break;
             case 2:
-                num = (int) (Math.random() * (100));
-                System.out.println("Загаданно число от 0 до 99 включительно.");break;
+                num = (int) (Math.random() * (100));        // от 0 до 99
+                System.out.println("Загадано число от 0 до 99 включительно.");break;
             case 3:
-                num = (int) (Math.random() * (1000));
-                System.out.println("Загаданно число от 0 до 999 включительно.");break;
+                num = (int) (Math.random() * (1000));       // от 0 до 999
+                System.out.println("Загадано число от 0 до 999 включительно.");break;
         }
-        System.out.println(num);
+        //System.out.println(num);
     }
 
-    public void game() throws Exception
+    public void game() throws Exception     // игровой процесс
     {
         String nums;
         int i;
@@ -69,30 +69,33 @@ public class Game {
 
         while(true)
         {
-            if(checkNum(nums=reader.readLine()))
+            if(checkNum(nums=reader.readLine()))        // проверяем число ли введено, если нет, то увеличиваем счетчик попыток и просим ввести число
             {
-                if (!num.equals(i = Integer.parseInt(nums))) {
-                    if (i < num) System.out.print("Введенное число меньше,");
-                        else if (i > num) System.out.print("Введенное число больше,");
+                if (!num.equals(i = Integer.parseInt(nums))) {      // сравниваем введенное значение с загаданным, если угадали, то увеличиваем сетчик попыток и выходим из цикла
+                    if (i < num) System.out.print("Загаданное число больше,");       // если не угадали и число меньше
+                        else if (i > num) System.out.print("Загаданное число меньше,");      // если не угадали и число больше
                     System.out.println("попробуйте еще раз:");
-                    counter++;
+                    counter++;      // увеличиваем счетчик попыток
                 }
                 else {counter++; break;}
             }
-            else {counter++; System.out.println("Введите, пожалуйста, число!");}
+            else if(nums.equals("exit")){System.out.println("Всего доброго! Ждем Вас снова!");System.exit(-1);}
+            else
+            {counter++; System.out.println("Введите, пожалуйста, целое число!");}
         }
         System.out.println("Угадали с " + counter + " раза.");
     }
 
-    public void setName() throws Exception
+    public void setName() throws Exception      // ввод имени
     {
         System.out.println("Введите Ваше имя для доски почета:");
-        name = reader.readLine();
+        if((name = reader.readLine()).equals("exit"))
+        {System.out.println("Всего доброго! Ждем Вас снова!");System.exit(-1);}
     }
 
-    public void saveFile() throws Exception
+    public void saveFile() throws Exception     // запись в файл и вывод таблицы результатов из файла
     {
-        int bufread;
+        int bufread;        // буфер для записи в файл
 
         FileWriter fw = new FileWriter("res.txt", true);
         fw.write(name+" "+counter);
@@ -106,7 +109,7 @@ public class Game {
 
     }
 
-    boolean checkNum(String num) throws Exception
+    boolean checkNum(String num) throws Exception       // проверка строки
     {
         try
         {
@@ -121,7 +124,9 @@ public class Game {
     public static void main (String args[])
     {
         Game game = new Game();
-
+        System.out.println("Игра \"Угадай число\". " +
+                "Нужно угадать число, которое загадал компьютер. Для Вашего удобства число целое.\nВ игре 3 уровня сложности.\n" +
+                "В любой момент можно выйти из игры введя команду \"exit\"");
         try {
             game.levelChoose();
             game.makeNum();
