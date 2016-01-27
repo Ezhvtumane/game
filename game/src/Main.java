@@ -5,9 +5,11 @@ public class Main {
 
      public static void main(String agrs[])
     {
-        System.out.println("Игра \"Угадай число\". " +
-                 "Нужно угадать число, которое загадал компьютер. Для Вашего удобства число целое.\nВ игре 3 уровня сложности.\n" +
-                 "В любой момент можно выйти из игры введя команду \"exit\"");
+        System.out.println(
+                "Игра \"Угадай число\". " +
+                "Нужно угадать число, которое загадал компьютер. Для Вашего удобства число целое.\nВ игре 3 уровня сложности.\n" +
+                "В любой момент можно выйти из игры введя команду \"exit\""
+        );
         Level level = new Level();
         Mistery mist = new Mistery();
         GameProcess game = new GameProcess();
@@ -29,5 +31,6 @@ public class Main {
         }
 
      }
+
 
 }
