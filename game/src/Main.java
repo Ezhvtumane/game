@@ -16,6 +16,7 @@ public class Main {
         GamerName name = new GamerName();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
+
         try {
             System.out.println("Выберите уровень(1-3):");
             String s = reader.readLine();
