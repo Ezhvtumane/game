@@ -1,5 +1,0 @@
-Test 8
-<<<<<<< 355e46a310cff674fb36b9211f6737d15d5bc04a
-=======
-yoyoyo 3
->>>>>>> trying tests
