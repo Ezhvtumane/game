@@ -3,7 +3,8 @@ import java.io.FileWriter;
 
 public class SaveFile {
 
-    public SaveFile(String name, int counter) throws Exception
+
+    public static void SaveFile(String name, int counter) throws Exception
     {
         int bufread;        // буфер для записи в файл
 

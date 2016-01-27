@@ -21,3 +21,4 @@ way 1
 cool 1
 Ujif 7
 Гоша 10
+tets 6

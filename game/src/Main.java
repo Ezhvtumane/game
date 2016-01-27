@@ -20,12 +20,9 @@ public class Main {
             while (!level.setLevel(s)) {
                 s = reader.readLine();
             }
-
-        mist.makeMystery(level.getLevel());
-
-
+            mist.makeMystery(level.getLevel());
             name.setName();
-            SaveFile f = new SaveFile(name.getName(),game.makeGame(mist.getMistery()));
+            SaveFile.SaveFile(name.getName(),game.makeGame(mist.getMistery()));
         }
         catch (Exception e){
             System.out.println(e.toString());
