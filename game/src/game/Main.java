@@ -1,3 +1,4 @@
+package game;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -10,13 +11,16 @@ public class Main {
                 "Нужно угадать число, которое загадал компьютер. Для Вашего удобства число целое.\nВ игре 3 уровня сложности.\n" +
                 "В любой момент можно выйти из игры введя команду \"exit\""
         );
-        Level level = new Level();
+        game.Level level = new game.Level();
         Mistery mist = new Mistery();
         GameProcess game = new GameProcess();
         GamerName name = new GamerName();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        try {
+
+        game.makeGame(2,"3");
+
+      /*  try {
             System.out.println("Выберите уровень(1-3):");
             String s = reader.readLine();
             while (!level.setLevel(s)) {
@@ -24,12 +28,12 @@ public class Main {
             }
             mist.makeMystery(level.getLevel());
             name.setName();
-            SaveFile.SaveFile(name.getName(),game.makeGame(mist.getMistery()));
+            //SaveFile.SaveFile(name.getName(),game.makeGame(mist.getMistery()));
         }
         catch (Exception e){
             System.out.println(e.toString());
         }
-
+*/
      }
 
 
