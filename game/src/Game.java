@@ -105,8 +105,8 @@ public class Game {
 
         FileReader fr = new FileReader("res.txt");
         System.out.println("\nТаблица результатов:");
-            while((bufread=fr.read())!=-1)
-                System.out.print((char)bufread);
+        while((bufread=fr.read())!=-1)
+            System.out.print((char)bufread);
 
     }
 
